@@ -1,6 +1,5 @@
 package com.company.mousemovement;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.awt.*;
@@ -12,23 +11,25 @@ public class MouseMovementApplication {
     public static void main(String[] args) {
         try {
             Robot robot = new Robot();
-            Random random = new Random();
-            while (true) {
-                // Get the current screen size
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                int height = screenSize.height;
-                int width = screenSize.width;
 
-                // Move the mouse to a random position on the screen
-                int x = random.nextInt(width);
-                int y = random.nextInt(height);
-                robot.mouseMove(x, y);
+            while (true) {
+                // Get the current mouse cursor location
+                Point cursorPos = MouseInfo.getPointerInfo().getLocation();
+
+                // Define the offset for how much to move the cursor (1 or 2 units)
+                int xOffset = 1; // Change this to 2 if needed
+                int yOffset = 1; // Change this to 2 if needed
+
+                int newX = cursorPos.x + xOffset;
+                int newY = cursorPos.y + yOffset;
+
+                robot.mouseMove(newX, newY);
 
                 // Print the new cursor location
-                System.out.println("Mouse moved to: (" + x + ", " + y + ")");
+                System.out.println("Mouse moved to: (" + newX + ", " + newY + ")");
 
                 // Wait for 10 minutes before moving the mouse again
-                Thread.sleep( 600000); // 600000 milliseconds = 10 minutes
+                Thread.sleep(600000); // 600000 milliseconds = 10 minutes
             }
         } catch (AWTException | InterruptedException e) {
             e.printStackTrace();
